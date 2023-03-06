@@ -19,6 +19,9 @@ services:
       - 80:8080
     # Menerapkan restart policy pada berkas docker-compose.yml agar container selalu restart ketika terhenti
     restart: always
+    # Pastikan item-app hanya berjalan setelah item-db diluncurkan
+    depends_on:
+      - item-db
   
 # Memiliki satu buah volume bernama app-db
 volumes:
