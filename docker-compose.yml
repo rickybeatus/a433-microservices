@@ -2,15 +2,6 @@
 version: "3.7"
 
 services:
-  item-db:
-    # Menggunakan image mongo:3 dari Docker Hub
-    image: mongo:3
-    # Memakai volume bernama app-db dengan target /data/db di container
-    volumes:
-      - app-db:/data/db
-    # Menerapkan restart policy pada berkas docker-compose.yml agar container selalu restart ketika terhenti
-    restart: always
-    
   item-app:
     # Menggunakan image item-app dari GitHub Packages
     image: ghcr.io/rickybeatus/item-app:v1
@@ -22,6 +13,15 @@ services:
     # Pastikan item-app hanya berjalan setelah item-db diluncurkan
     depends_on:
       - item-db
+
+  item-db:
+    # Menggunakan image mongo:3 dari Docker Hub
+    image: mongo:3
+    # Memakai volume bernama app-db dengan target /data/db di container
+    volumes:
+      - app-db:/data/db
+    # Menerapkan restart policy pada berkas docker-compose.yml agar container selalu restart ketika terhenti
+    restart: always
   
 # Memiliki satu buah volume bernama app-db
 volumes:
