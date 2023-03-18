@@ -1,9 +1,9 @@
 version: 2.1
 
-executors:
-  docker:
-    docker:
-      - image: docker:stable
+# executors:
+#   docker:
+#     docker:
+#       - image: docker:stable
   # docker-publisher: 
   #   environment:
   #     IMAGE_NAME: ghcr.io/rickybeatus/karsajobs
@@ -15,7 +15,8 @@ executors:
 
 jobs:
   lint:
-    executor: docker
+    docker:
+      - image: docker:stable
     steps:
       - checkout
       - setup_remote_docker
@@ -35,10 +36,10 @@ jobs:
     # executor: docker-publisher
     # docker:
     #   - image: circleci/golang:1.15
-    # working_directory: /go/src/github.com/dicodingacademy/karsajobs
+    working_directory: /go/src/github.com/dicodingacademy/karsajobs
     steps:
       - checkout
-      # - setup_remote_docker
+      - setup_remote_docker
       - run:
           name: Publish Docker Image
           command: |
