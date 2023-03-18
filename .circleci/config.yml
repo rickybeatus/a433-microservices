@@ -1,18 +1,5 @@
 version: 2.1
 
-# executors:
-#   docker:
-#     docker:
-#       - image: docker:stable
-  # docker-publisher: 
-  #   environment:
-  #     IMAGE_NAME: ghcr.io/rickybeatus/karsajobs
-  #   docker: 
-  #     - image: circleci/golang:1.15
-  #       auth:
-  #         username: $DOCKER_USERNAME
-  #         password: $DOCKER_PASSWORD
-
 jobs:
   lint:
     docker:
@@ -33,18 +20,17 @@ jobs:
           name: test-app
           command: go test -v -short --count=1 $(go list ./...)
   pushImage:
-    # executor: docker-publisher
     docker:
-      - image: circleci/golang:1.15
-    working_directory: /go/src/github.com/dicodingacademy/karsajobs
+      - image: docker:stable
+    # working_directory: /go/src/github.com/dicodingacademy/karsajobs
     steps:
       - checkout
       - setup_remote_docker
       - run:
           name: Publish Docker Image
           command: |
-            docker build -t karsajobs:latest .
-            docker tag karsajobs:latest ghcr.io/rickybeatus/karsajobs
+            docker build -t karsajobs .
+            docker tag karsajobs ghcr.io/rickybeatus/karsajobs
             echo $DOCKER_PASSWORD | docker login ghcr.io -u rickybeatus --password-stdin
             docker push ghcr.io/rickybeatus/karsajobs
 
