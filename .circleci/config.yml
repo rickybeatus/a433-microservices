@@ -11,5 +11,5 @@ jobs:
           name: test-app
           command: go test -v -short --count=1 $(go list ./...)
       - run:
-          name: list-all
-          command: ls -a
+          name: build-app-karsajobs
+          command: ./build-app-karsajobs.sh
