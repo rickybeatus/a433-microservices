@@ -34,7 +34,7 @@ jobs:
             docker push ghcr.io/rickybeatus/karsajobs
 
 workflows:
-  lint_test:
+  karsajobs:
     jobs:
       - lint-dockerfile
       - test-app  
