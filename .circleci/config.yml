@@ -42,10 +42,10 @@ jobs:
       - run:
           name: Publish Docker Image
           command: |
-            docker build -t karsajobs:latest .
-            docker tag karsajobs:latest ghcr.io/rickybeatus/karsajobs
+            docker build -t karsajobs2:latest .
+            docker tag karsajobs2:latest ghcr.io/rickybeatus/karsajobs2
             echo “$DOCKER_PASSWORD | docker login ghcr.io -u “$DOCKER_USERNAME” --password-stdin
-            docker push ghcr.io/rickybeatus/karsajobs
+            docker push ghcr.io/rickybeatus/karsajobs2
 
 workflows:
   lint_test:
