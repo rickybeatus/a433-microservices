@@ -34,8 +34,8 @@ jobs:
           command: go test -v -short --count=1 $(go list ./...)
   pushImage:
     # executor: docker-publisher
-    # docker:
-    #   - image: circleci/golang:1.15
+    docker:
+      - image: circleci/golang:1.15
     working_directory: /go/src/github.com/dicodingacademy/karsajobs
     steps:
       - checkout
