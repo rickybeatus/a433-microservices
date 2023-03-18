@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  lint:
+  lint-dockerfile:
     docker:
       - image: docker:stable
     steps:
@@ -10,7 +10,7 @@ jobs:
       - run:
           name: Run hadolint
           command: docker run --rm --interactive hadolint/hadolint < Dockerfile
-  test:
+  test-app:
     docker:
       - image: circleci/golang:1.15
     working_directory: /go/src/github.com/dicodingacademy/karsajobs
@@ -19,10 +19,9 @@ jobs:
       - run: 
           name: test-app
           command: go test -v -short --count=1 $(go list ./...)
-  pushImage:
+  build-app-karsajobs:
     docker:
       - image: docker:stable
-    # working_directory: /go/src/github.com/dicodingacademy/karsajobs
     steps:
       - checkout
       - setup_remote_docker
@@ -37,6 +36,6 @@ jobs:
 workflows:
   lint_test:
     jobs:
-      - lint
-      - test  
-      - pushImage
+      - lint-dockerfile
+      - test-app  
+      - build-app-karsajobs
