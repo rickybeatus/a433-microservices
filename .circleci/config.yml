@@ -7,7 +7,9 @@ jobs:
     working_directory: /go/src/github.com/dicodingacademy/karsajobs
     steps:
       - checkout
-      - name: test-app
-        run: go test -v -short --count=1 $(go list ./...)
-      - name: list-all
-        run: ls -a
+      - run: 
+          name: test-app
+          command: go test -v -short --count=1 $(go list ./...)
+      - run:
+          name: list-all
+          command: ls -a
