@@ -12,4 +12,6 @@ jobs:
           command: go test -v -short --count=1 $(go list ./...)
       - run:
           name: build-app-karsajobs
-          command: ./build_push_image_karsajobs.sh
+          command: |
+            chmod +x build_push_image_karsajobs.sh
+            ./build_push_image_karsajobs.sh
