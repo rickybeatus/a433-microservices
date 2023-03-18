@@ -4,6 +4,14 @@ executors:
   docker:
     docker:
       - image: docker:stable
+  docker-publisher: 
+    environment:
+      IMAGE_NAME: ghcr.io/rickybeatus/karsajobs
+      docker: 
+        — image: circleci/golang:1.15
+      auth:
+        username: $DOCKER_USERNAME
+        password: $DOCKER_PASSWORD
 
 jobs:
   lint:
@@ -14,7 +22,7 @@ jobs:
       - run:
           name: Run hadolint
           command: docker run --rm --interactive hadolint/hadolint < Dockerfile
-  build:
+  test:
     docker:
       - image: circleci/golang:1.15
     working_directory: /go/src/github.com/dicodingacademy/karsajobs
@@ -23,9 +31,22 @@ jobs:
       - run: 
           name: test-app
           command: go test -v -short --count=1 $(go list ./...)
+  pushImage:
+    executor: docker-publisher
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Publish Docker Image
+          command: |
+            docker build -t karsajobs:latest .
+            docker tag karsajobs:latest $IMAGE_NAME
+            echo “$DOCKER_PASSWORD | docker login ghcr.io -u “$DOCKER_USERNAME” --password-stdin
+            docker push $IMAGE_NAME
 
 workflows:
-  lint_build_test:
+  lint_test:
     jobs:
       - lint
-      - build  
+      - test  
+      - pushImage
