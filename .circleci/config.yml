@@ -1,10 +1,21 @@
 version: 2
+executors:
+  docker:
+    docker:
+      - image: docker:stable
 jobs:
+  lint:
+    executor: docker
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Run hadolint
+          command: docker run --rm --interactive hadolint/hadolint < Dockerfile
   build:
     docker:
       - image: circleci/golang:1.15
     working_directory: /go/src/github.com/dicodingacademy/karsajobs
     steps:
       - checkout
-      - run: docker run --rm --interactive hadolint/hadolint < Dockerfile
       - run: go test -v -short --count=1 $(go list ./...)
