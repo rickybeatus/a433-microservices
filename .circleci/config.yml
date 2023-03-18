@@ -19,3 +19,9 @@ jobs:
     steps:
       - checkout
       - run: go test -v -short --count=1 $(go list ./...)
+workflows:
+  version: 2
+  test:
+    jobs:
+      - lint
+      - build
