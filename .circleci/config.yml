@@ -9,9 +9,5 @@ jobs:
       - checkout
       - name: test-app
         run: go test -v -short --count=1 $(go list ./...)
-      - name: build-app-karsajobs
-        run: |
-          docker build -t karsajobs:latest .
-          docker tag karsajobs:latest ghcr.io/rickybeatus/karsajobs:latest
       - name: list-all
         run: ls -a
