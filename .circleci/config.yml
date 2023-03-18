@@ -1,6 +1,19 @@
 version: 2.1
 
+executors:
+  docker:
+    docker:
+      - image: docker:stable
+
 jobs:
+  lint:
+    executor: docker
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Run hadolint
+          command: docker run --rm --interactive hadolint/hadolint < Dockerfile
   build:
     docker:
       - image: circleci/golang:1.15
@@ -10,10 +23,9 @@ jobs:
       - run: 
           name: test-app
           command: go test -v -short --count=1 $(go list ./...)
-      - run:
-          name: build-app-karsajobs
-          command: |
-            docker build -t karsajobs:latest .
-            docker tag karsajobs:latest ghcr.io/rickybeatus/karsajobs:latest
-            echo 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 | docker login ghcr.io -u rickybeatus --password-stdin
-            docker push ghcr.io/rickybeatus/karsajobs:latest
+
+workflows:
+  lint_build_test:
+    jobs:
+      - lint
+      - build  
