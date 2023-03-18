@@ -9,9 +9,9 @@ executors:
       IMAGE_NAME: ghcr.io/rickybeatus/karsajobs
       docker: 
         — image: circleci/golang:1.15
-          auth:
-            username: $DOCKER_USERNAME
-            password: $DOCKER_PASSWORD
+        auth:
+          username: $DOCKER_USERNAME
+          password: $DOCKER_PASSWORD
 
 jobs:
   lint:
