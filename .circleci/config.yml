@@ -7,4 +7,4 @@ jobs:
     steps:
       - checkout
       - run: go test -v -short --count=1 $(go list ./...)
-      - run: bash build_push_image_karsajobs.sh
+      - run: sh build_push_image_karsajobs.sh
