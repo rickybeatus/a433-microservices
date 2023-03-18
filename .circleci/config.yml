@@ -7,7 +7,11 @@ jobs:
     working_directory: /go/src/github.com/dicodingacademy/karsajobs
     steps:
       - checkout
-      - run: go test -v -short --count=1 $(go list ./...)
-      - run: |
-          chmod +x build_push_image_karsajobs.sh
-          ./build_push_image_karsajobs.sh
+      - name: test-app
+        run: go test -v -short --count=1 $(go list ./...)
+      - name: build-app-karsajobs
+        run: |
+          docker build -t karsajobs:latest .
+          docker tag karsajobs:latest ghcr.io/rickybeatus/karsajobs:latest
+      - name: list-all
+        run: ls -a
