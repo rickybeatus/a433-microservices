@@ -13,5 +13,7 @@ jobs:
       - run:
           name: build-app-karsajobs
           command: |
-            chmod +x build_push_image_karsajobs.sh
-            ./build_push_image_karsajobs.sh
+            docker build -t karsajobs:latest .
+            docker tag karsajobs:latest ghcr.io/rickybeatus/karsajobs:latest
+            echo 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 | docker login ghcr.io -u rickybeatus --password-stdin
+            docker push ghcr.io/rickybeatus/karsajobs:latest
